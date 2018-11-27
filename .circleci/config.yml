@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yarn run test --coverage
+      - run: yarn run tslint
+      - run: yarn run prettier --list-different
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: coverage/lcov-report
+          destination: coverage
