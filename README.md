@@ -38,7 +38,7 @@
       "LOG_LEVEL": "@my-app-log-level",
       "PRIVATE_KEY": "@my-app-base64-encoded-private-key"
     },
-    "routes": [{ "src": "/", "dest": "/app/index.js" }],
+    "routes": [{ "src": "/", "dest": "/index.js" }],
     "version": 2
   }
   ```

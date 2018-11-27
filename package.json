@@ -46,5 +46,5 @@
     "test": "jest",
     "tslint": "tslint --format stylish --project ."
   },
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
