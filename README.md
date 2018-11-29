@@ -1,5 +1,4 @@
-[![npm version](https://img.shields.io/npm/v/probot-serverless-now.svg)](https://npmjs.org/package/probot-serverless-now)
-[![build status](https://img.shields.io/circleci/project/github/tibdex/probot-serverless-now.svg)](https://circleci.com/gh/tibdex/probot-serverless-now)
+[![npm version](https://img.shields.io/npm/v/probot-serverless-now.svg)](https://npmjs.org/package/probot-serverless-now) [![build status](https://img.shields.io/circleci/project/github/tibdex/probot-serverless-now.svg)](https://circleci.com/gh/tibdex/probot-serverless-now)
 
 # Goal
 
@@ -21,18 +20,18 @@
 - `index.js`
 
   ```javascript
-  const { start } = require("probot-serverless-now");
+  const toLambda = require("probot-serverless-now");
 
   const applicationFunction = require("./app");
 
-  start(applicationFunction);
+  module.exports = toLambda(applicationFunction);
   ```
 
 - `now.json`
 
   ```json
   {
-    "builds": [{ "src": "index.js", "use": "@now/node-server" }],
+    "builds": [{ "src": "index.js", "use": "@now/node" }],
     "env": {
       "APP_ID": "@my-app-id",
       "LOG_LEVEL": "@my-app-log-level",

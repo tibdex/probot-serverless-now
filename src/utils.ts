@@ -1,6 +1,14 @@
-import { Application } from "probot";
+import { Application, createProbot as _createProbot } from "probot";
+import { findPrivateKey } from "probot/lib/private-key";
 
-const defaultPort = 3000;
+const createProbot = () => {
+  const options = {
+    cert: String(findPrivateKey()),
+    id: Number(process.env.APP_ID),
+    secret: process.env.WEBHOOK_SECRET,
+  };
+  return _createProbot(options);
+};
 
 const fetchAppName = async (application: Application): Promise<string> => {
   const octokit = await application.auth();
@@ -10,4 +18,4 @@ const fetchAppName = async (application: Application): Promise<string> => {
   return name;
 };
 
-export { defaultPort, fetchAppName };
+export { createProbot, fetchAppName };

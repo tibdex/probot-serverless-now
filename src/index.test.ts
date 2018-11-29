@@ -2,74 +2,76 @@ import * as dotenv from "dotenv";
 import * as request from "supertest";
 import * as generateUuid from "uuid/v4";
 
-import { fetchAppName } from "./utils";
-
 dotenv.config();
 process.env.LOG_LEVEL = "fatal";
 
-// The import needs to be delayed until the environment variables are set.
+// These imports need to be delayed until the environment variables are set.
 // Otherwise the options such as the log level would be ignored.
-// tslint:disable-next-line:no-var-requires
-const { _createProbotAndLoadApplication, start } = require(".");
+// tslint:disable:no-var-requires
+const toLambda = require(".");
+const { createProbot, fetchAppName } = require("./utils");
+// tslint:enable:no-var-requires
 
 test("landing page contains the app name", async () => {
-  const { application, probot } = _createProbotAndLoadApplication(() => {
+  const unusedAppFn = () => {
     // nop
-  });
+  };
+  const handler = toLambda(unusedAppFn);
+  const probot = createProbot();
+  const application = probot.load(unusedAppFn);
   const name = await fetchAppName(application);
-  const response = await request(probot.server).get("/");
+  const response = await request(handler).get("/");
 
   expect(response.text).toMatch(name);
   expect(response.status).toBe(200);
 });
 
-describe("server", () => {
-  let called: boolean;
+describe("webhook", () => {
+  const receive = async ({
+    payload = {},
+    signature = createProbot().webhook.sign(payload),
+  }: {
+    payload: object;
+    signature?: string;
+  }) => {
+    let receivedPayload: any;
 
-  const event = "issues";
-  const appFn = (application: any) => {
-    application.on(event, async () => {
-      called = true;
-    });
-  };
-
-  beforeEach(() => {
-    called = false;
-  });
-
-  test("subscription to events", async () => {
-    const { probot } = _createProbotAndLoadApplication(appFn);
-    const payload = {};
-    const response = await request(probot.server)
+    const event = "issues";
+    const appFn = (application: any) => {
+      application.on(event, async (context: any) => {
+        receivedPayload = context.payload;
+      });
+    };
+    const handler = toLambda(appFn);
+    const response = await request(handler)
       .post("/")
-      .send(payload)
       .set("x-github-delivery", generateUuid())
       .set("x-github-event", event)
-      .set("x-hub-signature", probot.webhook.sign(payload));
+      .set("x-hub-signature", signature)
+      .send(payload);
+
+    return { receivedPayload, response };
+  };
+
+  test("subscription", async () => {
+    const payload = { test: true };
+    const { receivedPayload, response } = await receive({ payload });
 
     expect(response.text).toMatch("ok");
     expect(response.status).toBe(200);
-    expect(called).toBe(true);
+    expect(receivedPayload).toEqual(payload);
   });
 
-  test("signature is checked", async () => {
-    const { port, stop } = await start((application: any) => {
-      application.on(event, async () => {
-        called = true;
-      });
+  test("signature verification", async () => {
+    const { receivedPayload, response } = await receive({
+      payload: {},
+      signature: "wrong signature",
     });
-    const response = await request(`http://localhost:${port}`)
-      .post("/")
-      .send({})
-      .set("x-github-delivery", generateUuid())
-      .set("x-github-event", event)
-      .set("x-hub-signature", "wrong signature");
-    stop();
 
     expect(response.text).toMatch(
       "signature does not match event payload and secret",
     );
     expect(response.status).toBe(400);
-    expect(called).toBe(false);
+    expect(receivedPayload).toBeUndefined();
   });
 });
