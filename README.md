@@ -34,8 +34,8 @@
     "builds": [{ "src": "index.js", "use": "@now/node" }],
     "env": {
       "APP_ID": "@my-app-id",
-      "LOG_LEVEL": "@my-app-log-level",
-      "PRIVATE_KEY": "@my-app-base64-encoded-private-key"
+      "PRIVATE_KEY": "@my-app-base64-encoded-private-key",
+      "WEBHOOK_SECRET": "@my-app-webhook-secret"
     },
     "routes": [{ "src": "/", "dest": "/index.js" }],
     "version": 2
