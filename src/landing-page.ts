@@ -26,4 +26,4 @@ const getLandingPage = (name: string) => `<!DOCTYPE html>
 </html>
 `;
 
-export default getLandingPage;
+export { getLandingPage };

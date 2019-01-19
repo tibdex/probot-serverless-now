@@ -6,7 +6,7 @@ import { ApplicationFunction } from "probot";
 import * as sentryApp from "probot/lib/apps/sentry";
 import * as logRequestErrors from "probot/lib/middleware/log-request-errors";
 
-import getLandingPage from "./landing-page";
+import { getLandingPage } from "./landing-page";
 import { createProbot, fetchAppName } from "./utils";
 
 type RequestHandler = (
