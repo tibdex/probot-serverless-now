@@ -20,7 +20,7 @@
 - `index.js`
 
   ```javascript
-  const toLambda = require("probot-serverless-now");
+  const { toLambda } = require("probot-serverless-now");
 
   const applicationFunction = require("./app");
 

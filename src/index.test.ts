@@ -1,16 +1,8 @@
-import * as dotenv from "dotenv";
 import * as request from "supertest";
 import * as generateUuid from "uuid/v4";
 
-dotenv.config();
-process.env.LOG_LEVEL = "fatal";
-
-// These imports need to be delayed until the environment variables are set.
-// Otherwise the options such as the log level would be ignored.
-// tslint:disable:no-var-requires
-const toLambda = require(".");
-const { createProbot, fetchAppName } = require("./utils");
-// tslint:enable:no-var-requires
+import { toLambda } from ".";
+import { createProbot, fetchAppName } from "./utils";
 
 test("landing page contains the app name", async () => {
   const unusedAppFn = () => {
