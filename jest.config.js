@@ -11,5 +11,6 @@ module.exports = {
   },
   preset: "ts-jest",
   reporters: ["default", ["jest-junit", { output: "./reports/junit.xml" }]],
+  setupFiles: ["./setup-tests.ts"],
   testEnvironment: "node",
 };

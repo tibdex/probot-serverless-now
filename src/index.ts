@@ -97,4 +97,4 @@ const toLambda = (applicationFn: ApplicationFunction): RequestHandler => async (
   });
 };
 
-export = toLambda;
+export { toLambda };
