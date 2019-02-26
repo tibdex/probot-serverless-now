@@ -1,5 +1,5 @@
-import * as request from "supertest";
-import * as generateUuid from "uuid/v4";
+import request from "supertest";
+import generateUuid from "uuid/v4";
 
 import { toLambda } from ".";
 import { createProbot, fetchAppName } from "./utils";
