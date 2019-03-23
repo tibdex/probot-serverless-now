@@ -2,7 +2,7 @@ import { ClientRequest, ServerResponse } from "http";
 
 import { ApplicationFunction } from "probot";
 import sentryApp from "probot/lib/apps/sentry";
-import logRequestErrors from "probot/lib/middleware/log-request-errors";
+import { logRequestErrors } from "probot/lib/middleware/log-request-errors";
 
 import { getLandingPage } from "./landing-page";
 import { createProbot, fetchAppName } from "./utils";
@@ -16,7 +16,7 @@ const initializeProbot = (applicationFn: ApplicationFunction) => {
   const probot = createProbot();
 
   // Log all unhandled rejections
-  process.on("unhandledRejection", probot.errorHandler);
+  process.on("unhandledRejection", probot.errorHandler as any);
 
   const application = probot.load(applicationFn);
   probot.load(sentryApp);
