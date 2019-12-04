@@ -2,7 +2,7 @@
 
 # Goal
 
-`probot-serverless-now` is a wrapper around [Probot](https://github.com/probot/probot) to run your GitHub Apps as Lambdas in [Zeit's Now 2.0](https://zeit.co/now).
+`probot-serverless-now` is a wrapper around [Probot](https://github.com/probot/probot) to run your GitHub Apps as Serverless Functions with [ZEIT Now](https://zeit.co).
 
 # Usage
 
