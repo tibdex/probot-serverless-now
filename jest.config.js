@@ -10,7 +10,7 @@ module.exports = {
     },
   },
   preset: "ts-jest",
-  reporters: ["default", ["jest-junit", { output: "./reports/junit.xml" }]],
+  reporters: ["default", ["jest-junit", { outputDirectory: "reports" }]],
   setupFiles: ["./setup-tests.ts"],
   testEnvironment: "node",
 };
