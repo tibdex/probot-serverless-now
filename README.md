@@ -2,7 +2,7 @@
 
 # Goal
 
-`probot-serverless-now` is a wrapper around [Probot](https://github.com/probot/probot) to run your GitHub Apps as Lambdas in [Zeit's Now 2.0](https://zeit.co/now).
+`probot-serverless-now` is a wrapper around [Probot](https://github.com/probot/probot) to run your GitHub Apps as Serverless Functions with [ZEIT Now](https://zeit.co).
 
 # Usage
 
@@ -17,12 +17,12 @@
   };
   ```
 
-- `index.js`
+- `api/index.js`
 
   ```javascript
   const { toLambda } = require("probot-serverless-now");
 
-  const applicationFunction = require("./app");
+  const applicationFunction = require("../app");
 
   module.exports = toLambda(applicationFunction);
   ```
@@ -31,14 +31,12 @@
 
   ```json
   {
-    "builds": [{ "src": "index.js", "use": "@now/node" }],
+    "version": 2,
     "env": {
       "APP_ID": "@my-app-id",
       "PRIVATE_KEY": "@my-app-base64-encoded-private-key",
       "WEBHOOK_SECRET": "@my-app-webhook-secret"
-    },
-    "routes": [{ "src": "/", "dest": "/index.js" }],
-    "version": 2
+    }
   }
   ```
 
