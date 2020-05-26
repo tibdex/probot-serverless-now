@@ -1,8 +1,8 @@
-[![npm version](https://img.shields.io/npm/v/probot-serverless-now.svg)](https://npmjs.org/package/probot-serverless-now) [![build status](https://img.shields.io/circleci/project/github/tibdex/probot-serverless-now.svg)](https://circleci.com/gh/tibdex/probot-serverless-now)
-
 # Goal
 
 `probot-serverless-now` is a wrapper around [Probot](https://github.com/probot/probot) to run your GitHub Apps as Serverless Functions with [ZEIT Now](https://zeit.co).
+
+**Note**: This package is not maintained anymore as [GitHub Actions](https://github.com/features/actions) and [github-app-token](https://github.com/marketplace/actions/github-app-token) can, most of the time, replace Probot.
 
 # Usage
 
